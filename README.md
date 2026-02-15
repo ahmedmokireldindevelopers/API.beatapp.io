@@ -80,6 +80,10 @@ http://localhost:3000/api/health
 3. Add same env vars in Vercel Project Settings.
 4. Deploy.
 
+For future restore/import:
+- Use `secure-env/.env.template` as the full key map.
+- Copy it to local `secure-env/.env`, fill secrets, then use Vercel `Import .env`.
+
 ## Notes
 
 - `src/app/api/oauth/crm/callback/route.ts` handles GHL token exchange + upsert in `integrations`.
