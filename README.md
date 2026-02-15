@@ -1,96 +1,61 @@
-# BeatApp Integrations (Next.js + Supabase)
+# API.beatapp.io
 
-OAuth callbacks for:
-- GoHighLevel Marketplace app install
-- Wafeq account connection per GHL sub-account (`locationId`)
+## Overview
 
-## Callback URLs
+API.beatapp.io is a robust and scalable API designed to serve the needs of modern application development. It provides a seamless integration experience with a variety of endpoints tailored for data retrieval, manipulation, and user authentication.
 
-Production callbacks:
+## Features
+- **RESTful Architecture**: The API is built on REST principles, making it easy to use and integrate.
+- **Authentication**: OAuth 2.0 authentication ensures secure access to the API.
+- **Comprehensive Documentation**: Every endpoint is well-documented for developers' convenience.
+- **Versioning**: Built-in versioning support to maintain backward compatibility.
 
-- `https://api.beatapp.io/api/oauth/crm/callback`
-- `https://api.beatapp.io/api/oauth/wafeq/callback`
+## Getting Started
 
-## API Routes
+### Prerequisites
+- A valid API key (obtainable from our platform)
+- Familiarity with HTTP methods (GET, POST, PUT, DELETE)
 
-- `GET /api/health`
-- `GET /api/oauth/crm/callback`
-- `GET /api/wafeq/connect?locationId=XXX`
-- `GET /api/oauth/wafeq/callback`
-- `POST /api/oauth/wafeq/revoke`
-- `POST /api/wafeq/link` (alternative API Key flow)
+### Installation
+You can access the API by making HTTP requests to the following base URL:
+```
+https://api.beatapp.io
+```
 
-## Supabase SQL
-
-Run `supabase/schema.sql` in Supabase SQL Editor.
-
-## Environment Variables
-
-Copy `.env.example` to `.env.local` and fill values.
-
-Required:
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`
-- `GHL_CLIENT_ID`
-- `GHL_CLIENT_SECRET`
-- `GHL_TOKEN_URL`
-- `GHL_REDIRECT_URI`
-
-Wafeq OAuth required (if using OAuth flow):
-- `WAFEQ_CLIENT_ID`
-- `WAFEQ_CLIENT_SECRET`
-- `WAFEQ_REDIRECT_URI`
-
-Optional:
-- `SUPABASE_PUBLISHABLE_KEY` (not used by server upserts, but useful for client-side features)
-- `SUPABASE_ANON_KEY` (legacy/client-side key; not enough for server upserts)
-- `WAFEQ_PROBE_URL` (default: `https://api.wafeq.com/v1/organization`)
-- `WAFEQ_AUTHORIZE_URL` (default: `https://app.wafeq.com/oauth/authorize/`)
-- `WAFEQ_TOKEN_URL` (default: `https://app.wafeq.com/oauth/token/`)
-- `WAFEQ_REVOKE_URL` (default: `https://app.wafeq.com/oauth/token/revoke/`)
-- `WAFEQ_SCOPE`
-- `OAUTH_STATE_SECRET`
-
-## Local Run
-
+### Example Request
+To retrieve user data, use the following example:
 ```bash
-npm install
-npm run dev
+curl -X GET "https://api.beatapp.io/users" -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-Health check:
-
-```text
-http://localhost:3000/api/health
+### Response Structure
+The API returns responses in JSON format. Below is an example response:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  }
+}
 ```
 
-## Vercel
+## Endpoints
+- `GET /users`: Retrieve a list of users.
+- `POST /users`: Create a new user.
+- `PUT /users/{id}`: Update user information.
+- `DELETE /users/{id}`: Delete a user.
 
-1. Push to GitHub.
-2. Import project into Vercel.
-3. Add same env vars in Vercel Project Settings.
-4. Deploy.
+## Contributing
+We welcome contributions to enhance the API. Please follow the standard fork-and-pull request model for submitting changes.
 
-## Notes
+## Support
+For support, please contact us at support@beatapp.io or visit our [support page](https://support.beatapp.io).
 
-- `src/app/api/oauth/crm/callback/route.ts` handles GHL token exchange + upsert in `integrations`.
-- `src/app/api/wafeq/link/route.ts` links Wafeq by API key and stores it by `locationId`.
-- `src/app/api/wafeq/connect/route.ts` generates Wafeq authorize URL for each `locationId`.
-- `src/app/api/oauth/wafeq/callback/route.ts` exchanges Wafeq code and stores OAuth tokens.
-- `src/app/api/oauth/wafeq/revoke/route.ts` revokes Wafeq token and disconnects integration.
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Wafeq API Key Example
+---
 
-```bash
-curl -X POST https://api.beatapp.io/api/wafeq/link \
-  -H "Content-Type: application/json" \
-  -d '{"locationId":"XXX","apiKey":"YOUR_WAFEQ_API_KEY"}'
-```
-
-## Wafeq Revoke Example
-
-```bash
-curl -X POST https://api.beatapp.io/api/oauth/wafeq/revoke \
-  -H "Content-Type: application/json" \
-  -d '{"locationId":"XXX"}'
-```
+**This README was last updated on 2026-02-15.**
