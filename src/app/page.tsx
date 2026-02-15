@@ -5,7 +5,7 @@ export default function HomePage() {
       <p>Use API routes for OAuth callbacks:</p>
       <ul>
         <li>/api/health</li>
-        <li>/api/oauth/ghl/callback</li>
+        <li>/api/oauth/crm/callback</li>
         <li>/api/oauth/wafeq/callback</li>
         <li>POST /api/oauth/wafeq/revoke</li>
         <li>/api/wafeq/connect?locationId=YOUR_LOCATION_ID</li>

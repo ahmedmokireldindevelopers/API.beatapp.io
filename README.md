@@ -8,13 +8,13 @@ OAuth callbacks for:
 
 After deployment on Vercel:
 
-- `https://YOUR-VERCEL-DOMAIN.vercel.app/api/oauth/ghl/callback`
+- `https://YOUR-VERCEL-DOMAIN.vercel.app/api/oauth/crm/callback`
 - `https://YOUR-VERCEL-DOMAIN.vercel.app/api/oauth/wafeq/callback`
 
 ## API Routes
 
 - `GET /api/health`
-- `GET /api/oauth/ghl/callback`
+- `GET /api/oauth/crm/callback`
 - `GET /api/wafeq/connect?locationId=XXX`
 - `GET /api/oauth/wafeq/callback`
 - `POST /api/oauth/wafeq/revoke`
@@ -73,7 +73,7 @@ http://localhost:3000/api/health
 
 ## Notes
 
-- `src/app/api/oauth/ghl/callback/route.ts` handles GHL token exchange + upsert in `integrations`.
+- `src/app/api/oauth/crm/callback/route.ts` handles GHL token exchange + upsert in `integrations`.
 - `src/app/api/wafeq/link/route.ts` links Wafeq by API key and stores it by `locationId`.
 - `src/app/api/wafeq/connect/route.ts` generates Wafeq authorize URL for each `locationId`.
 - `src/app/api/oauth/wafeq/callback/route.ts` exchanges Wafeq code and stores OAuth tokens.
