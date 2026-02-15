@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Terms and Conditions | BeatApp"
 };
+export const dynamic = "force-static";
 
 export default function TermsPage() {
   return (

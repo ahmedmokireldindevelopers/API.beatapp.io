@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Documentation | BeatApp"
 };
+export const dynamic = "force-static";
 
 export default function DocumentationPage() {
   return (

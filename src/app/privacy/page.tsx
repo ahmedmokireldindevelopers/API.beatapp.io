@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Privacy Policy | BeatApp"
 };
+export const dynamic = "force-static";
 
 export default function PrivacyPage() {
   return (

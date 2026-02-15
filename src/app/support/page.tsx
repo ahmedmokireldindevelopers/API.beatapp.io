@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Support | BeatApp"
 };
+export const dynamic = "force-static";
 
 export default function SupportPage() {
   return (
