@@ -14,6 +14,7 @@ Production callbacks:
 ## API Routes
 
 - `GET /api/health`
+- `GET /api/ghl/contacts?locationId=XXX&pageLimit=10`
 - `GET /api/oauth/crm/callback`
 - `GET /api/wafeq/connect?locationId=XXX`
 - `GET /api/oauth/wafeq/callback`
@@ -38,10 +39,9 @@ Copy `.env.example` to `.env.local` and fill values.
 Required:
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`
-- `GHL_CLIENT_ID`
-- `GHL_CLIENT_SECRET`
-- `GHL_TOKEN_URL`
-- `GHL_REDIRECT_URI`
+- GHL auth mode:
+- Mode A (SDK PIT): `HIGHLEVEL_PIT` (or `GHL_PIT`)
+- Mode B (OAuth): `GHL_CLIENT_ID`, `GHL_CLIENT_SECRET`, `GHL_TOKEN_URL`, `GHL_REDIRECT_URI`
 
 Wafeq OAuth required (if using OAuth flow):
 - `WAFEQ_CLIENT_ID`
@@ -49,6 +49,8 @@ Wafeq OAuth required (if using OAuth flow):
 - `WAFEQ_REDIRECT_URI`
 
 Optional:
+- `HIGHLEVEL_PIT` (or `GHL_PIT`) for SDK auth via Private Integration Token
+- `HIGHLEVEL_CLIENT_ID` and `HIGHLEVEL_CLIENT_SECRET` (SDK OAuth aliases; fallback to `GHL_CLIENT_ID/GHL_CLIENT_SECRET`)
 - `SUPABASE_PUBLISHABLE_KEY` (not used by server upserts, but useful for client-side features)
 - `SUPABASE_ANON_KEY` (legacy/client-side key; not enough for server upserts)
 - `WAFEQ_PROBE_URL` (default: `https://api.wafeq.com/v1/organization`)
@@ -81,6 +83,8 @@ http://localhost:3000/api/health
 ## Notes
 
 - `src/app/api/oauth/crm/callback/route.ts` handles GHL token exchange + upsert in `integrations`.
+- `src/lib/highlevel.ts` configures the official `@gohighlevel/api-client` SDK with Supabase-backed session storage.
+- `src/app/api/ghl/contacts/route.ts` demonstrates calling GHL through SDK (`contacts.searchContactsAdvanced`).
 - `src/app/api/wafeq/link/route.ts` links Wafeq by API key and stores it by `locationId`.
 - `src/app/api/wafeq/connect/route.ts` generates Wafeq authorize URL for each `locationId`.
 - `src/app/api/oauth/wafeq/callback/route.ts` exchanges Wafeq code and stores OAuth tokens.
@@ -92,6 +96,12 @@ http://localhost:3000/api/health
 curl -X POST https://api.beatapp.io/api/wafeq/link \
   -H "Content-Type: application/json" \
   -d '{"locationId":"XXX","apiKey":"YOUR_WAFEQ_API_KEY"}'
+```
+
+## HighLevel SDK Contacts Example
+
+```bash
+curl "https://api.beatapp.io/api/ghl/contacts?locationId=YOUR_LOCATION_ID&pageLimit=5"
 ```
 
 ## Wafeq Revoke Example

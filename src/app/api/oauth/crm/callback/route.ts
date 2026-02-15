@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { saveHighLevelOAuthSession } from "@/lib/highlevel";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -92,8 +93,19 @@ export async function GET(req: Request) {
     return new Response(`DB error: ${error.message}`, { status: 500 });
   }
 
+  let sdkSessionWarning: string | null = null;
+  try {
+    await saveHighLevelOAuthSession({
+      locationId: resolvedLocationId,
+      companyId: resolvedCompanyId,
+      tokenJson
+    });
+  } catch (err) {
+    sdkSessionWarning = err instanceof Error ? err.message : String(err);
+  }
+
   return new Response(
-    `GoHighLevel connected successfully.\nlocationId=${resolvedLocationId ?? ""}\ncompanyId=${resolvedCompanyId ?? ""}`,
+    `GoHighLevel connected successfully.\nlocationId=${resolvedLocationId ?? ""}\ncompanyId=${resolvedCompanyId ?? ""}${sdkSessionWarning ? `\nwarning=${sdkSessionWarning}` : ""}`,
     { status: 200 }
   );
 }
