@@ -6,10 +6,10 @@ OAuth callbacks for:
 
 ## Callback URLs
 
-After deployment on Vercel:
+Production callbacks:
 
-- `https://YOUR-VERCEL-DOMAIN.vercel.app/api/oauth/crm/callback`
-- `https://YOUR-VERCEL-DOMAIN.vercel.app/api/oauth/wafeq/callback`
+- `https://api.beatapp.io/api/oauth/crm/callback`
+- `https://api.beatapp.io/api/oauth/wafeq/callback`
 
 ## API Routes
 
@@ -82,7 +82,7 @@ http://localhost:3000/api/health
 ## Wafeq API Key Example
 
 ```bash
-curl -X POST https://YOUR-VERCEL-DOMAIN.vercel.app/api/wafeq/link \
+curl -X POST https://api.beatapp.io/api/wafeq/link \
   -H "Content-Type: application/json" \
   -d '{"locationId":"XXX","apiKey":"YOUR_WAFEQ_API_KEY"}'
 ```
@@ -90,7 +90,7 @@ curl -X POST https://YOUR-VERCEL-DOMAIN.vercel.app/api/wafeq/link \
 ## Wafeq Revoke Example
 
 ```bash
-curl -X POST https://YOUR-VERCEL-DOMAIN.vercel.app/api/oauth/wafeq/revoke \
+curl -X POST https://api.beatapp.io/api/oauth/wafeq/revoke \
   -H "Content-Type: application/json" \
   -d '{"locationId":"XXX"}'
 ```
