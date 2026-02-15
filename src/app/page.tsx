@@ -11,6 +11,13 @@ export default function HomePage() {
         <li>/api/wafeq/connect?locationId=YOUR_LOCATION_ID</li>
         <li>POST /api/wafeq/link</li>
       </ul>
+      <p>Public pages:</p>
+      <ul>
+        <li>/terms</li>
+        <li>/privacy</li>
+        <li>/documentation</li>
+        <li>/support</li>
+      </ul>
     </main>
   );
 }
