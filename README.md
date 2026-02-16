@@ -15,6 +15,7 @@ Production callbacks:
 
 - `GET /api/health`
 - `GET /api/ghl/contacts?locationId=XXX&pageLimit=10`
+- `POST /api/ghl/webhook`
 - `GET /api/oauth/crm/callback`
 - `GET /api/wafeq/connect?locationId=XXX`
 - `GET /api/oauth/wafeq/callback`
@@ -51,6 +52,7 @@ Wafeq OAuth required (if using OAuth flow):
 Optional:
 - `HIGHLEVEL_PIT` (or `GHL_PIT`) for SDK auth via Private Integration Token
 - `HIGHLEVEL_CLIENT_ID` and `HIGHLEVEL_CLIENT_SECRET` (SDK OAuth aliases; fallback to `GHL_CLIENT_ID/GHL_CLIENT_SECRET`)
+- `GHL_WEBHOOK_PUBLIC_KEY` (optional override; defaults to official HighLevel public key)
 - `SUPABASE_PUBLISHABLE_KEY` (not used by server upserts, but useful for client-side features)
 - `SUPABASE_ANON_KEY` (legacy/client-side key; not enough for server upserts)
 - `WAFEQ_PROBE_URL` (default: `https://api.wafeq.com/v1/organization`)
@@ -93,6 +95,19 @@ For future restore/import:
 - `src/app/api/wafeq/connect/route.ts` generates Wafeq authorize URL for each `locationId`.
 - `src/app/api/oauth/wafeq/callback/route.ts` exchanges Wafeq code and stores OAuth tokens.
 - `src/app/api/oauth/wafeq/revoke/route.ts` revokes Wafeq token and disconnects integration.
+- `src/app/api/ghl/webhook/route.ts` verifies `x-wh-signature`, filters selected events, deduplicates by `webhookId`, and stores payloads in `ghl_webhook_events`.
+
+## HighLevel Webhook Setup
+
+Use this webhook URL in HighLevel Marketplace:
+
+- `https://api.beatapp.io/api/ghl/webhook`
+
+Enable these events:
+
+- `ContactCreate`, `ContactUpdate`
+- `OpportunityCreate`, `OpportunityUpdate`, `OpportunityStatusUpdate`
+- `InvoiceCreate`, `InvoiceUpdate`, `InvoicePaid`, `InvoiceVoid`
 
 ## Wafeq API Key Example
 

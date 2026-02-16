@@ -11,6 +11,7 @@ export default function DocumentationPage() {
       <h2>Available Endpoints</h2>
       <ul>
         <li>GET /api/health</li>
+        <li>POST /api/ghl/webhook</li>
         <li>GET /api/oauth/crm/callback</li>
         <li>GET /api/oauth/wafeq/callback</li>
         <li>POST /api/oauth/wafeq/revoke</li>
@@ -22,6 +23,11 @@ export default function DocumentationPage() {
       <ul>
         <li>https://api.beatapp.io/api/oauth/crm/callback</li>
         <li>https://api.beatapp.io/api/oauth/wafeq/callback</li>
+      </ul>
+
+      <h2>Webhook URL</h2>
+      <ul>
+        <li>https://api.beatapp.io/api/ghl/webhook</li>
       </ul>
 
       <h2>Quick Health Check</h2>

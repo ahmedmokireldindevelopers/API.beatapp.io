@@ -6,6 +6,7 @@ export default function HomePage() {
       <ul>
         <li>/api/health</li>
         <li>/api/ghl/contacts?locationId=YOUR_LOCATION_ID</li>
+        <li>POST /api/ghl/webhook</li>
         <li>/api/oauth/crm/callback</li>
         <li>/api/oauth/wafeq/callback</li>
         <li>POST /api/oauth/wafeq/revoke</li>
