@@ -36,7 +36,7 @@ interface ApiErrorResponse {
     code: ErrorCode;
     message: string;
     statusCode: number;
-    details?: Record<string, any>;
+    details?: Record<string, unknown>;
     timestamp: string;
   };
 }
@@ -54,7 +54,7 @@ export class ApiError extends Error {
     public code: ErrorCode,
     public statusCode: number,
     message: string,
-    public details?: Record<string, any>
+    public details?: Record<string, unknown>
   ) {
     super(message);
     this.name = 'ApiError';

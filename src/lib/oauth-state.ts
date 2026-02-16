@@ -1,5 +1,7 @@
 import { createHmac } from "node:crypto";
 
+import { env } from "@/lib/env";
+
 type WafeqStatePayload = {
   locationId: string;
   ts: number;
@@ -21,7 +23,7 @@ function base64UrlDecode(value: string): string {
 }
 
 function signPayload(locationId: string, ts: number): string | undefined {
-  const secret = process.env.OAUTH_STATE_SECRET;
+  const secret = env.OAUTH_STATE_SECRET;
   if (!secret) {
     return undefined;
   }

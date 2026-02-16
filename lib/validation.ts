@@ -52,9 +52,9 @@ export function validateRequest<T>(
     return schema.parse(data);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const fieldErrors = error.errors.map((e) => ({
-        field: e.path.join('.'),
-        message: e.message,
+      const fieldErrors = error.issues.map((issue) => ({
+        field: issue.path.join('.'),
+        message: issue.message,
       }));
 
       throw new ApiError(

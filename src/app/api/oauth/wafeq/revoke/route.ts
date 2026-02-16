@@ -1,3 +1,4 @@
+import { getWafeqOAuthEnv } from "@/lib/env";
 import { supabase } from "@/lib/supabase";
 
 type RevokePayload = {
@@ -30,12 +31,10 @@ export async function POST(req: Request) {
     return json({ error: "Missing locationId" }, 400);
   }
 
-  const revokeUrl =
-    process.env.WAFEQ_REVOKE_URL || "https://app.wafeq.com/oauth/token/revoke/";
-  const clientId = process.env.WAFEQ_CLIENT_ID;
-  const clientSecret = process.env.WAFEQ_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
+  let oauthEnv: ReturnType<typeof getWafeqOAuthEnv>;
+  try {
+    oauthEnv = getWafeqOAuthEnv();
+  } catch {
     return json({ error: "Missing Wafeq OAuth env variables" }, 500);
   }
 
@@ -61,12 +60,12 @@ export async function POST(req: Request) {
     return json({ error: "No token stored for this integration" }, 400);
   }
 
-  const revokeRes = await fetch(revokeUrl, {
+  const revokeRes = await fetch(oauthEnv.revokeUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: oauthEnv.clientId,
+      client_secret: oauthEnv.clientSecret,
       token: revokeToken
     })
   });

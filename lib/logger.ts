@@ -13,7 +13,7 @@ interface LogContext {
   timestamp: string;
   level: LogLevel;
   message: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   error?: Error;
 }
 
@@ -35,7 +35,7 @@ class Logger {
     return baseLog;
   }
 
-  error(message: string, data?: Record<string, any> | Error) {
+  error(message: string, data?: Record<string, unknown> | Error) {
     const context: LogContext = {
       timestamp: new Date().toISOString(),
       level: LogLevel.ERROR,
@@ -46,7 +46,7 @@ class Logger {
     console.error(this.formatLog(context));
   }
 
-  warn(message: string, data?: Record<string, any>) {
+  warn(message: string, data?: Record<string, unknown>) {
     const context: LogContext = {
       timestamp: new Date().toISOString(),
       level: LogLevel.WARN,
@@ -59,7 +59,7 @@ class Logger {
     }
   }
 
-  info(message: string, data?: Record<string, any>) {
+  info(message: string, data?: Record<string, unknown>) {
     const context: LogContext = {
       timestamp: new Date().toISOString(),
       level: LogLevel.INFO,
@@ -72,7 +72,7 @@ class Logger {
     }
   }
 
-  debug(message: string, data?: Record<string, any>) {
+  debug(message: string, data?: Record<string, unknown>) {
     const context: LogContext = {
       timestamp: new Date().toISOString(),
       level: LogLevel.DEBUG,

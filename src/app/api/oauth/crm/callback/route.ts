@@ -1,3 +1,4 @@
+import { getGhlOAuthEnv } from "@/lib/env";
 import { supabase } from "@/lib/supabase";
 import { saveHighLevelOAuthSession } from "@/lib/highlevel";
 
@@ -15,24 +16,22 @@ export async function GET(req: Request) {
     return new Response("Missing code", { status: 400 });
   }
 
-  const tokenUrl = process.env.GHL_TOKEN_URL;
-  const clientId = process.env.GHL_CLIENT_ID;
-  const clientSecret = process.env.GHL_CLIENT_SECRET;
-  const redirectUri = process.env.GHL_REDIRECT_URI;
-
-  if (!tokenUrl || !clientId || !clientSecret || !redirectUri) {
+  let oauthEnv: ReturnType<typeof getGhlOAuthEnv>;
+  try {
+    oauthEnv = getGhlOAuthEnv();
+  } catch {
     return new Response("Missing GHL OAuth env variables", { status: 500 });
   }
 
-  const tokenRes = await fetch(tokenUrl, {
+  const tokenRes = await fetch(oauthEnv.tokenUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       grant_type: "authorization_code",
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: oauthEnv.clientId,
+      client_secret: oauthEnv.clientSecret,
       code,
-      redirect_uri: redirectUri
+      redirect_uri: oauthEnv.redirectUri
     })
   });
 

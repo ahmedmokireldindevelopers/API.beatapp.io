@@ -1,3 +1,4 @@
+import { getWafeqOAuthEnv } from "@/lib/env";
 import { parseWafeqState } from "@/lib/oauth-state";
 import { supabase } from "@/lib/supabase";
 
@@ -18,25 +19,22 @@ export async function GET(req: Request) {
     return new Response("Missing locationId (query or state)", { status: 400 });
   }
 
-  const tokenUrl =
-    process.env.WAFEQ_TOKEN_URL || "https://app.wafeq.com/oauth/token/";
-  const clientId = process.env.WAFEQ_CLIENT_ID;
-  const clientSecret = process.env.WAFEQ_CLIENT_SECRET;
-  const redirectUri = process.env.WAFEQ_REDIRECT_URI;
-
-  if (!tokenUrl || !clientId || !clientSecret || !redirectUri) {
+  let oauthEnv: ReturnType<typeof getWafeqOAuthEnv>;
+  try {
+    oauthEnv = getWafeqOAuthEnv();
+  } catch {
     return new Response("Missing Wafeq OAuth env variables", { status: 500 });
   }
 
-  const tokenRes = await fetch(tokenUrl, {
+  const tokenRes = await fetch(oauthEnv.tokenUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       grant_type: "authorization_code",
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: oauthEnv.clientId,
+      client_secret: oauthEnv.clientSecret,
       code,
-      redirect_uri: redirectUri
+      redirect_uri: oauthEnv.redirectUri
     })
   });
 

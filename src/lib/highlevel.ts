@@ -1,5 +1,6 @@
 import { HighLevel } from "@gohighlevel/api-client";
 
+import { env } from "@/lib/env";
 import { supabase } from "@/lib/supabase";
 
 type JsonObject = Record<string, unknown>;
@@ -186,15 +187,13 @@ const supabaseSessionStorage = {
 let highLevelClient: Record<string, unknown> | null = null;
 
 function getHighLevelClientConfig(): Record<string, unknown> {
-  const privateIntegrationToken =
-    process.env.HIGHLEVEL_PIT || process.env.GHL_PIT;
+  const privateIntegrationToken = env.HIGHLEVEL_PIT || env.GHL_PIT;
   if (privateIntegrationToken) {
     return { privateIntegrationToken };
   }
 
-  const clientId = process.env.HIGHLEVEL_CLIENT_ID || process.env.GHL_CLIENT_ID;
-  const clientSecret =
-    process.env.HIGHLEVEL_CLIENT_SECRET || process.env.GHL_CLIENT_SECRET;
+  const clientId = env.HIGHLEVEL_CLIENT_ID || env.GHL_CLIENT_ID;
+  const clientSecret = env.HIGHLEVEL_CLIENT_SECRET || env.GHL_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
     throw new Error(
@@ -220,10 +219,10 @@ export function getHighLevelClient(): Record<string, unknown> {
 }
 
 export function isHighLevelSdkConfigured(): boolean {
-  const hasPit = Boolean(process.env.HIGHLEVEL_PIT || process.env.GHL_PIT);
+  const hasPit = Boolean(env.HIGHLEVEL_PIT || env.GHL_PIT);
   const hasOauth = Boolean(
-    (process.env.HIGHLEVEL_CLIENT_ID || process.env.GHL_CLIENT_ID) &&
-      (process.env.HIGHLEVEL_CLIENT_SECRET || process.env.GHL_CLIENT_SECRET)
+    (env.HIGHLEVEL_CLIENT_ID || env.GHL_CLIENT_ID) &&
+      (env.HIGHLEVEL_CLIENT_SECRET || env.GHL_CLIENT_SECRET)
   );
   return hasPit || hasOauth;
 }

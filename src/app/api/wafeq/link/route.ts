@@ -1,3 +1,4 @@
+import { env } from "@/lib/env";
 import { supabase } from "@/lib/supabase";
 
 type LinkPayload = {
@@ -18,8 +19,7 @@ async function validateWafeqApiKey(apiKey: string): Promise<{
   status?: number;
   payload?: unknown;
 }> {
-  const probeUrl =
-    process.env.WAFEQ_PROBE_URL || "https://api.wafeq.com/v1/organization";
+  const probeUrl = env.WAFEQ_PROBE_URL;
 
   try {
     const res = await fetch(probeUrl, {

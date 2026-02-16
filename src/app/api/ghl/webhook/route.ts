@@ -1,5 +1,6 @@
 import { createHash, createVerify } from "crypto";
 
+import { env } from "@/lib/env";
 import { supabase } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -75,8 +76,8 @@ function getPayload(rawBody: string): JsonObject | null {
 
 function getWebhookPublicKey(): string {
   return (
-    process.env.GHL_WEBHOOK_PUBLIC_KEY ||
-    process.env.HIGHLEVEL_WEBHOOK_PUBLIC_KEY ||
+    env.GHL_WEBHOOK_PUBLIC_KEY ||
+    env.HIGHLEVEL_WEBHOOK_PUBLIC_KEY ||
     DEFAULT_GHL_WEBHOOK_PUBLIC_KEY
   );
 }
